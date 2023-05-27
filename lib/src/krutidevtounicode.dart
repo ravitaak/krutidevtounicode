@@ -1,5 +1,5 @@
+ class KrutidevToUnicode {
 
-class KrutidevToUnicode {
      static final CHARS_KD = [
 "ñ","Q+Z","sas","aa",")Z","ZZ","‘","’","“","”",
 
@@ -32,7 +32,7 @@ class KrutidevToUnicode {
 "^", "*",  "Þ", "ß", "(", "¼", "½", "¿", "À", "¾", "A", "-", "&", "&", "Œ", "]","~ ","@"
     ];
     
-     static final CHARS_UNICODE = [
+    static final  CHARS_UNICODE = [
 "॰","QZ+","sa","a","र्द्ध","Z","\"","\"","'","'",
 
 "०",  "१",  "२",  "३",     "४",   "५",  "६",   "७",   "८",   "९",   
@@ -63,118 +63,105 @@ class KrutidevToUnicode {
 "ं",   "ँ",   "ः",   "ॅ",  "ऽ", "ऽ", "ऽ", "ऽ", "्र",  "्", "?", "़",":",
 "‘",   "’",   "“",   "”",  ";",  "(",    ")",   "{",    "}",   "=", "।", ".", "-",  "µ", "॰", ",","् ","/"
     ];
+    
+     static void doConvert(StringBuffer strUnicode, String strKtd) {
+        if(strKtd.trim() !="" ) {
+            for (int input_symbol_idx = 0; input_symbol_idx < CHARS_KD.length; input_symbol_idx++) {
+                int idx = 0;
+                while (idx != -1 ) {
+                    strKtd = strKtd.replaceAll( CHARS_KD[input_symbol_idx], CHARS_UNICODE[input_symbol_idx]);
+                    idx = strKtd.indexOf(CHARS_KD[input_symbol_idx]);
+                }
+            }
+            
+            strKtd = strKtd.replaceAll("±", "Zं");
+            
+            strKtd = strKtd.replaceAll("Æ","र्f");
+            
+            int position_of_i = strKtd.indexOf("f");
 
-  static void _doConvert(StringBuffer strUnicode, String strKtd) {
-    if (strKtd.trim() != "") {
-      for (int input_symbol_idx = 0;
-          input_symbol_idx < CHARS_KD.length;
-          input_symbol_idx++) {
-        int idx = 0;
-        while (idx != -1) {
-          strKtd = strKtd.replaceAll(
-              CHARS_KD[input_symbol_idx], CHARS_UNICODE[input_symbol_idx]);
-          idx = strKtd.indexOf(CHARS_KD[input_symbol_idx]);
+            while (position_of_i != -1)
+            {
+                var charecter_next_to_i = strKtd[position_of_i + 1];
+                String charecter_to_be_replaced = "f" + charecter_next_to_i;
+                strKtd = strKtd.replaceAll(charecter_to_be_replaced, charecter_next_to_i + "ि");
+                position_of_i = strKtd.indexOf("f", position_of_i + 1);
+            }
+            
+            strKtd = strKtd.replaceAll("Ç", "fa");
+            strKtd = strKtd.replaceAll("É", "र्fa");
+
+            position_of_i = strKtd.indexOf("fa");
+
+            while(position_of_i != -1)
+            {
+                var charecter_next_to_ip2 = strKtd[position_of_i + 2];
+                String charecter_to_be_replaced = "fa" + charecter_next_to_ip2;
+                strKtd = strKtd.replaceAll(charecter_to_be_replaced , charecter_next_to_ip2 + "िं"); 
+                position_of_i = strKtd.indexOf("fa", position_of_i + 2 );
+            }
+            
+            strKtd = strKtd.replaceAll("Ê", "ीZ");
+            
+            int position_of_wrong_ee = strKtd.indexOf("ि्");
+
+            while (position_of_wrong_ee != -1) {
+                var consonent_next_to_wrong_ee = strKtd[position_of_wrong_ee + 2];
+                String charecter_to_be_replaced = "ि्" + consonent_next_to_wrong_ee;
+                strKtd = strKtd.replaceAll(charecter_to_be_replaced, "्" + consonent_next_to_wrong_ee + "ि"); 
+                position_of_wrong_ee = strKtd.indexOf("ि्", position_of_wrong_ee + 2); 
+            }
+            
+            String set_of_matras = "अ आ इ ई उ ऊ ए ऐ ओ औ ा ि ी ु ू ृ े ै ो ौ ं : ँ ॅ";
+            int position_of_R = strKtd.indexOf("Z");
+
+            while (position_of_R > 0) {
+                int probable_position_of_half_r = position_of_R - 1;
+                var charecter_at_probable_position_of_half_r = strKtd[probable_position_of_half_r];
+
+                while(set_of_matras.indexOf(charecter_at_probable_position_of_half_r) >= 0) {
+                    probable_position_of_half_r = probable_position_of_half_r - 1;
+                    charecter_at_probable_position_of_half_r = strKtd[probable_position_of_half_r];
+                }
+                
+                String charecter_to_be_replaced = strKtd.substring(probable_position_of_half_r, probable_position_of_half_r);
+                String new_replacement_string = "र्" + charecter_to_be_replaced;
+                charecter_to_be_replaced = charecter_to_be_replaced + "Z" ;
+                strKtd = strKtd.replaceAll(charecter_to_be_replaced, new_replacement_string);
+                position_of_R = strKtd.indexOf("Z");
+            }
+            
+            strUnicode.writeln(strKtd);
         }
-      }
-
-      strKtd = strKtd.replaceAll("±", "Zं");
-
-      strKtd = strKtd.replaceAll("Æ", "र्f");
-
-      int position_of_i = strKtd.indexOf("f");
-
-      while (position_of_i != -1) {
-        var charecter_next_to_i = strKtd[position_of_i + 1];
-        String charecter_to_be_replaced = "f" + charecter_next_to_i;
-        strKtd = strKtd.replaceAll(
-            charecter_to_be_replaced, charecter_next_to_i + "ि");
-        position_of_i = strKtd.indexOf("f", position_of_i + 1);
-      }
-
-      strKtd = strKtd.replaceAll("Ç", "fa");
-      strKtd = strKtd.replaceAll("É", "र्fa");
-
-      position_of_i = strKtd.indexOf("fa");
-
-      while (position_of_i != -1) {
-        var charecter_next_to_ip2 = strKtd[position_of_i + 2];
-        String charecter_to_be_replaced = "fa" + charecter_next_to_ip2;
-        strKtd = strKtd.replaceAll(
-            charecter_to_be_replaced, charecter_next_to_ip2 + "िं");
-        position_of_i = strKtd.indexOf("fa", position_of_i + 2);
-      }
-
-      strKtd = strKtd.replaceAll("Ê", "ीZ");
-
-      int position_of_wrong_ee = strKtd.indexOf("ि्");
-
-      while (position_of_wrong_ee != -1) {
-        var consonent_next_to_wrong_ee = strKtd[position_of_wrong_ee + 2];
-        String charecter_to_be_replaced = "ि्" + consonent_next_to_wrong_ee;
-        strKtd = strKtd.replaceAll(
-            charecter_to_be_replaced, "्" + consonent_next_to_wrong_ee + "ि");
-        position_of_wrong_ee = strKtd.indexOf("ि्", position_of_wrong_ee + 2);
-      }
-
-      String set_of_matras = "अ आ इ ई उ ऊ ए ऐ ओ औ ा ि ी ु ू ृ े ै ो ौ ं : ँ ॅ";
-      int position_of_R = strKtd.indexOf("Z");
-
-      while (position_of_R > 0) {
-        int probable_position_of_half_r = position_of_R - 1;
-        var charecter_at_probable_position_of_half_r =
-            strKtd[probable_position_of_half_r];
-
-        while (
-            set_of_matras.indexOf(charecter_at_probable_position_of_half_r) >=
-                0) {
-          probable_position_of_half_r = probable_position_of_half_r - 1;
-          charecter_at_probable_position_of_half_r =
-              strKtd[probable_position_of_half_r];
-        }
-
-        String charecter_to_be_replaced = strKtd.substring(
-            probable_position_of_half_r, probable_position_of_half_r);
-        String new_replacement_string = "र्" + charecter_to_be_replaced;
-        charecter_to_be_replaced = charecter_to_be_replaced + "Z";
-        strKtd =
-            strKtd.replaceAll(charecter_to_be_replaced, new_replacement_string);
-        position_of_R = strKtd.indexOf("Z");
-      }
-
-      strUnicode.writeln(strKtd);
     }
-  }
+    
+    
+     static String convertToUnicode(String krutiString) {
+        String strKtd = krutiString;
+        StringBuffer sbUnicode = new StringBuffer();
+        
+        int text_size = strKtd.length;
+        int sthiti1 = 0, sthiti2 = 0, chale_chalo = 1;
+        int max_text_size = 6000;
+        
+        while(chale_chalo == 1) {
+            sthiti1 = sthiti2;
+            
+            if(sthiti2 < (text_size - max_text_size)) { 
+                sthiti2 +=  max_text_size;
+                while(strKtd[sthiti2] != ' ') {
+                    sthiti2--;
+                }
+            } else { 
+                sthiti2 = text_size;
+                chale_chalo = 0;
+            }
 
-  static String convertToUnicode(String krutiString) {
-    String strKtd = krutiString;
-    StringBuffer sbUnicode = new StringBuffer();
+            String modified_substring = strKtd.substring(sthiti1, sthiti2);
 
-    int text_size = strKtd.length;
-    int sthiti1 = 0, sthiti2 = 0, chale_chalo = 1;
-    int max_text_size = 6000;
-
-    while (chale_chalo == 1) {
-      sthiti1 = sthiti2;
-
-      if (sthiti2 < (text_size - max_text_size)) {
-        sthiti2 += max_text_size;
-        while (strKtd[sthiti2] != ' ') {
-          sthiti2--;
+            doConvert(sbUnicode, modified_substring);
         }
-      } else {
-        sthiti2 = text_size;
-        chale_chalo = 0;
-      }
-
-      String modified_substring = strKtd.substring(sthiti1, sthiti2);
-
-      _doConvert(sbUnicode, modified_substring);
+        
+        return sbUnicode.toString();
     }
-
-    return sbUnicode.toString();
-  }
-}
-
-void main() {
-  print(KrutidevToUnicode.convertToUnicode(""));
 }
