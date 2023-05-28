@@ -1,6 +1,6 @@
 name: krutidevtounicode
 description: This package is created to convert the Krutidev font to Unicode 
-version: 1.0.1
+version: 1.0.2
 homepage: https://github.com/ravitaak/krutidevtounicode
 
 environment:

@@ -1,6 +1,6 @@
  class KrutidevToUnicode {
 
-     static final CHARS_KD = [
+     static final chars_kd = [
 "ñ","Q+Z","sas","aa",")Z","ZZ","‘","’","“","”",
 
 "å",  "ƒ",  "„",   "…",   "†",   "‡",   "ˆ",   "‰",   "Š",   "‹", 
@@ -32,7 +32,7 @@
 "^", "*",  "Þ", "ß", "(", "¼", "½", "¿", "À", "¾", "A", "-", "&", "&", "Œ", "]","~ ","@"
     ];
     
-    static final  CHARS_UNICODE = [
+    static final chars_unicode = [
 "॰","QZ+","sa","a","र्द्ध","Z","\"","\"","'","'",
 
 "०",  "१",  "२",  "३",     "४",   "५",  "६",   "७",   "८",   "९",   
@@ -66,11 +66,11 @@
     
      static void doConvert(StringBuffer strUnicode, String strKtd) {
         if(strKtd.trim() !="" ) {
-            for (int input_symbol_idx = 0; input_symbol_idx < CHARS_KD.length; input_symbol_idx++) {
+            for (int input_symbol_idx = 0; input_symbol_idx < chars_kd.length; input_symbol_idx++) {
                 int idx = 0;
                 while (idx != -1 ) {
-                    strKtd = strKtd.replaceAll( CHARS_KD[input_symbol_idx], CHARS_UNICODE[input_symbol_idx]);
-                    idx = strKtd.indexOf(CHARS_KD[input_symbol_idx]);
+                    strKtd = strKtd.replaceAll( chars_kd[input_symbol_idx], chars_unicode[input_symbol_idx]);
+                    idx = strKtd.indexOf(chars_kd[input_symbol_idx]);
                 }
             }
             
@@ -82,7 +82,7 @@
 
             while (position_of_i != -1)
             {
-                var charecter_next_to_i = strKtd[position_of_i + 1];
+                var charecter_next_to_i = strKtd[position_of_i +1];
                 String charecter_to_be_replaced = "f" + charecter_next_to_i;
                 strKtd = strKtd.replaceAll(charecter_to_be_replaced, charecter_next_to_i + "ि");
                 position_of_i = strKtd.indexOf("f", position_of_i + 1);
@@ -137,7 +137,7 @@
     
     
      static String convertToUnicode(String krutiString) {
-        String strKtd = krutiString;
+        String strKtd = krutiString + " ";
         StringBuffer sbUnicode = new StringBuffer();
         
         int text_size = strKtd.length;
